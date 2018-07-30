@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hadoop的安装与部署 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="#分布式环境配置 ##（一）虚拟机配置本项目我是用VMware Workstation Pro 建立三台Centos系统的虚拟机下完成的。一台作为从master主节点，另外两台作为slaves从节点。 ###1、关闭防火墙进入master节点，使用root权限，输入firewall-cmd –state即可 ###2、修改主机名修改/etc/hostname文件vi /etc/hostname删除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop的安装与部署">
+<meta property="og:url" content="http://yoursite.com/2018/07/28/Hadoop的安装与部署/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="#分布式环境配置 ##（一）虚拟机配置本项目我是用VMware Workstation Pro 建立三台Centos系统的虚拟机下完成的。一台作为从master主节点，另外两台作为slaves从节点。 ###1、关闭防火墙进入master节点，使用root权限，输入firewall-cmd –state即可 ###2、修改主机名修改/etc/hostname文件vi /etc/hostname删除">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-30T16:25:15.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop的安装与部署">
+<meta name="twitter:description" content="#分布式环境配置 ##（一）虚拟机配置本项目我是用VMware Workstation Pro 建立三台Centos系统的虚拟机下完成的。一台作为从master主节点，另外两台作为slaves从节点。 ###1、关闭防火墙进入master节点，使用root权限，输入firewall-cmd –state即可 ###2、修改主机名修改/etc/hostname文件vi /etc/hostname删除">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Hadoop的安装与部署" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/28/Hadoop的安装与部署/" class="article-date">
+  <time datetime="2018-07-28T16:24:33.000Z" itemprop="datePublished">2018-07-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop的安装与部署
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#分布式环境配置</p>
+<p>##（一）虚拟机配置<br>本项目我是用VMware Workstation Pro 建立三台Centos系统的虚拟机下完成的。一台作为从master主节点，另外两台作为slaves从节点。</p>
+<p>###1、关闭防火墙<br>进入master节点，使用root权限，输入firewall-cmd –state即可</p>
+<p>###2、修改主机名<br>修改/etc/hostname文件<br>vi /etc/hostname<br>删除：localhost.localdomain<br>添加：master<br>保存退出:wq!<br>其他两台分别为：<br>Slave1,Slave2<br>修改完成后，查看修改后的主机名。</p>
+<p>###3、配置ip地址<br>因为所用VM虚拟机的网络设置为共享网络，故只需要在ens33配置文件将开机启动设置为yes即可，因每增加一台虚拟机，VM变会将ip进行自增，且下次开机不会改变。<br>vi /etc/sysconfig/network-scripts/ifcfg-ens33<br>配置完成后，重启网络服务：<br>/etc/init.d/network restart<br>此时，ip addr即可查看相应的ip<br>本人搭建了三台虚拟机，其ip分别为：<br>192.168.121.128    Master<br>192.168.121.129    Slave1<br>192.168.121.130    Slave2  </p>
+<p>###4、hosts配置<br>vi /etc/hosts<br>添加<br>192.168.121.128     Master<br>192.168.121.129     Slave1<br>192.168.121.130     Slave2<br>配置完成后，三台主机可以互PING域名。</p>
+<p>###5、SSH无密码验证配置<br>Hadoop运行过程中需要管理远端Hadoop守护进程，在Hadoop启动以后，NameNode是通过SSH（Secure Shell）来启动和停止各个DataNode上的各种守护进程的。这就必须在节点之间执行指令的时候是不需要输入密码的形式，故我们需要配置SSH运用无密码公钥认证的形式，这样NameNode使用SSH无密码登录并启动DataName进程，同样原理，DataNode上也能使用SSH无密码登录到NameNode。  </p>
+<p>####① 配置Master和所有的Slave机器的sshd_config<br>vi /etc/ssh/sshd_config<br>将下边三个选项进行配置<br>RSAAuthentication yes # 启用 RSA 认证<br>PubkeyAuthentication yes # 启用公钥私钥配对认证方式<br>AuthorizedKeysFile .ssh/authorized_keys # 公钥文件路径<br>保存退出:wq，后要将sshd服务重启<br>systemctl restart  sshd.service  #启动服务<br>然后分别在所有机器的hadoop用户的~/目录下分别建立.ssh文件夹并将其权限设为700。   </p>
+<p>####②在每台机器上上生成密码对<br>ssh-keygen -t rsa -P ‘’  </p>
+<p>####③将Slaves中的公钥发送到Master中<br>Slave1<br>scp ~/.ssh/id_rsa.pub root@Master:~/.ssh/id_rsa1.pub<br>Slave2<br>scp ~/.ssh/id_rsa.pub root@Master:~/.ssh/id_rsa2.pub  </p>
+<p>####④在Master中统一将公钥追加到authorized key中<br>cat ~/.ssh/id_rsa1.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat ~/.ssh/id_rsa2.pub &gt;&gt; ~/.ssh/authorized_keys<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>rm ~/.ssh/id_rsa1.pub<br>rm ~/.ssh/id_rsa2.pub  </p>
+<p>####⑤把公钥复制所有的Slave机器上<br>scp ~/.ssh/authorized_keys root@Slave1:~/.ssh<br>scp ~/.ssh/authorized_keys root@Slave2:~/.ssh  </p>
+<p>####⑥修改文件”authorized_keys”权限<br>chmod 600 ~/.ssh/authorized_keys<br>配置完SSH无密码通信后，测试SSH已经成功进行无密码通信  </p>
+<p>##（二）Hadoop分布式集群搭建 </p>
+<p>###1、下载并安装JDK<br>下载JDK 7<br>把下载的jdk复制到每台机器/usr/java目录下面，解压安装<br>tar –zxvf  jdk-7u9-linux-i586.tar.gz   </p>
+<p>配置JDK环境变量<br>vi  /etc/profile<br>在该文件最后一行添加：<br>JAVA_HOME=/usr/java/jdk1.7.0_09<br>PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:PATH<br>CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib   </p>
+<p>使修改的操作生效<br>source   /etc/profile       </p>
+<p>验证是否已配置成功:<br>java  -version   </p>
+<p>###2、下载并安装Hadoop<br>我下载的hadoop版本是官网的原生2.5.0版本，把下载的包复制到虚拟机上，并解压：<br>tar  –zxvf   hadoop-2.5.0.tar.gz  </p>
+<p>###3、配置Hadoop<br>  进入配置目录，开始配置:<br>cd  hadoop-2.5.0/conf  </p>
+<p>1.配置core-site.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;file:/home/ysw/cloud/project/tmp&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;fs.default.name&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;hdfs://master:9000&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.配置hdfs-site.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;dfs.repplication&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;2&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;dfs.permissions.enabled&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;false&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;file:/home/ysw/cloud/project/tmp/dfs/name&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;file:/home/ysw/cloud/project/tmp/dfs/data&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3.配置mapred-site.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;mapred.job.tracker&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;http://master:9001&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;mapred.local.dir&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;/home/ysw/cloud/project/var&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;  </span><br><span class="line">&lt;property&gt;  </span><br><span class="line">	&lt;name&gt;mapreduce.framework.name&lt;/name&gt;  </span><br><span class="line">	&lt;value&gt;yarn&lt;/value&gt;  </span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure></p>
+<p>4.配置hadoop-env.sh\yarn-env.sh的JAVA_HOME<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_80  </p>
+<p>5.配置slaves，删除默认的localhost，增加两个从节点  </p>
+<p>6.配置master，添加主节点  </p>
+<p>7.将配置好的hadoop复制到各个节点对应位置上，通过scp传送<br>Scp –r /home/Hadoop slave1:/home<br>Scp –r /home/Hadoop slave2:/home  </p>
+<p>###4、启动Hadoop集群<br>在Master服务器启动hadoop，从节点会自动启动。 </p>
+<p>1.在master节点初始化namenode：<br>bin/hadoop namenode   –format  </p>
+<p>2.启动hadoop服务：<br>Start-all.sh  </p>
+<p>3.输入jps查看相关信息，查看hadoop服务是否启动。<br>  浏览器地址栏输入192.168.1.201(master):50070查看HDFS相关信息<br>  输入192.168.1.201(master):8088查看Yarn相关信息。</p>
+<p>至此，Hadoop的安装部署已经完成。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/28/Hadoop的安装与部署/" data-id="cjk5mm06j0000n8nu5eclf5km" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/27/你好，Hexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">你好，Hexo</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/07/28/Hadoop的安装与部署/">Hadoop的安装与部署</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/27/你好，Hexo/">你好，Hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/26/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
